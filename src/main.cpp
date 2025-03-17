@@ -3,18 +3,45 @@
 #include <SDL3/SDL_main.h>
 
 static SDL_Window *window;
-static SDL_Renderer *renderer;
+static SDL_Renderer *render;
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer("sdl_game", 800, 640, 0, &window, &renderer);
+    SDL_CreateWindowAndRenderer("sdl_game", 1280, 720, 0, &window, &render);
     return SDL_APP_CONTINUE;
 }
 
 SDL_AppResult SDL_AppIterate(void *appstate) {
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 185);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    SDL_SetRenderDrawColor(render, 30, 30, 30, 185);
+    SDL_RenderClear(render);
+
+	SDL_SetRenderDrawColor(render, 100, 30, 200, 185);
+    SDL_FRect rect;
+    rect.x = 100;
+    rect.y = 100;
+    rect.w = 100;
+    rect.h = 100;
+	   
+    SDL_RenderFillRect(render, &rect);
+
+    SDL_FRect rectBorder;
+    rectBorder.x = 300;
+    rectBorder.y = 300;
+    rectBorder.w = 100;
+    rectBorder.h = 100;
+    SDL_RenderRect(render, &rectBorder);
+
+    SDL_RenderLine(render, 450, 100, 500, 200);
+
+    SDL_FPoint lines[] = {
+        {100, 320}, {200, 250}, {600, 720}, {400, 520}
+    };
+
+    SDL_RenderLines(render, lines, SDL_arraysize(lines));
+
+    SDL_RenderPoint(render, 50, 50);
+
+    SDL_RenderPresent(render);
     return SDL_APP_CONTINUE;
 }
 
